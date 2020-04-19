@@ -65,7 +65,7 @@ c("sleep_time" = "Time of falling asleep",
 
 ## Data
 
-The data (`cv19`) are printed below:
+The data (`abpm_wide`) are printed below:
 
 ```{r}
 
@@ -112,7 +112,7 @@ read_rds('solutions/02_solution.rds')
 
 # Problem 3
 
-Create an factor variable called `awake` that has values of `'Yes'` when participants are awake and `'No'` when asleep.
+Create a factor variable called `awake` that has values of `'Yes'` when participants are awake and `'No'` when asleep.
 
 __Notes__: 
 
@@ -121,6 +121,10 @@ __Notes__:
     + sleep time is less than awake time
     
     + sleep time is greater than awake time.
+    
+- Be sure to think about how the `awake` indicator should be defined in _both_ of these scenarios.
+
+- The `if_else()` function is helpful here.
 
 ```{r, fig.width=10}
 
@@ -131,7 +135,11 @@ read_rds('solutions/03_solution.rds')
 
 # Problem 4
 
+Exclude participants with less than 10 ABPM readings while awake _or_ less than 5 ABPM readings while asleep.
+
 __Notes__: 
+
+- You may do this with or without using `pivot` functions. 
 
 ```{r}
 
@@ -141,7 +149,15 @@ read_rds('solutions/04_solution.rds')
 
 # Problem 5
 
+Using the data from problem 4, compute the mean systolic BP, diastolic BP, and heart rate for each participant during their awake and asleep periods, separately.
+
 __Notes__: 
+
+- After summarizing your data, you will want to use `pivot_wider`. 
+
+- Before using `pivot_wider`, I'd recommend recoding the `awake` indicator variable so that values of `'Yes'` are mapped to `'awk'` and values of `'No'` are mapped to `'slp'`. 
+
+- Remember to `ungroup()` your data if necessary.
 
 ```{r}
 
@@ -149,6 +165,27 @@ read_rds('solutions/05_solution.rds')
 
 ```
 
+# Problem 6
+
+Tabulate __and interpret__ your findings. Show the mean systolic BP, diastolic BP, and heart rate while awake and asleep for males and females, stratified by race and smoking status, jointly. (see my table for an illustration of joint stratification). 
+
+__Notes__: 
+
+- To get full credit for this exercise, write _three_ observations about your results. Here is an example (you cannot use this as one of your own observations): 
+
+    + BP during sleep tends to be lower than BP during wakefulness. 
+
+- `unite()` is a helpful function for joint stratification.  
+
+- You can rename your columns and use `tab_spanner_delim` for convenience.
+
+```{r}
+
+read_rds('solutions/06_solution.rds')
+
+```
+
+# References
 
 
 
