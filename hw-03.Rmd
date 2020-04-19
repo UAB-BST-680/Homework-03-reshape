@@ -1,0 +1,155 @@
+---
+title: "Homework 3"
+author: "[YOUR NAME HERE]"
+date: "`r Sys.Date()`"
+output: 
+  html_document:
+    code_folding: hide
+    df_print: paged
+    fig_caption: yes
+    fig_height: 6
+    fig_width: 8
+    highlight: textmate
+    theme: readable
+    toc: yes
+    toc_float: yes
+bibliography: bibliography.bib
+---
+
+<!-- Feel free to edit theme / highlight in the YAML header above -->
+
+```{r setup, echo=TRUE, message = FALSE, warning = FALSE}
+
+knitr::opts_chunk$set(echo = TRUE)
+
+# Load libraries for homework problems
+library(tidyverse)
+library(gt)
+
+# Read in the data
+abpm_wide <- read_csv('data/abpm_wide_synthetic.csv')
+
+```
+
+
+# Overview
+
+Ambulatory blood pressure monitoring (ABPM) is a technique for assessing a person’s blood pressure (BP). ABPM is conducted with a special device that consists of a BP cuff worn on the participant's arm and attached to a small recording device worn on the belt. The ABPM device is usually worn for 24 hours, and it records BP periodically (usually at 15-minute or 30-minute intervals). One of the benefits of ABPM is measuring BP during routine daily activities and during sleep instead of in clinical settings. A previous study  by @hermida2018asleep found that, among all BP derive risk factors, asleep Systolic BP is the most associated with cardiovacular disease events. 
+
+## Data dictionary
+
+I have modified the New York times data to include information about state's population levels. The data are described below: 
+
+```{r}
+
+c("sleep_time" = "Time of falling asleep", 
+  "awake_time" =  "Time of waking up", 
+  "age" = "Participant age, years",
+  "sex" = "Participant sex at birth",
+  "race" = "Participant race",
+  "educ" = "Participant education at exam time",
+  "smoke" = "Participant smoking status at exam time",
+  "sbp_0 - sbp_23" = "Systolic BP, hours since midnight",
+  "dbp_0 - dbp_23" = "Diastolic BP, hours since midnight",
+  "hr_0 - hr_23" = "Heart rate, hours since midnight"
+) %>% 
+  enframe() %>% 
+  gt(rowname_col = "name") %>%
+  tab_stubhead(label = 'Variable name') %>% 
+  cols_label(value = 'Variable description') %>% 
+  cols_align('right') %>%
+  tab_source_note("BP = blood pressure") %>% 
+  tab_header(title = 'Dictionary for synthetic ABPM data')
+  
+```
+
+## Data
+
+The data (`cv19`) are printed below:
+
+```{r}
+
+abpm_wide
+
+```
+
+# Problem 1
+
+Convert the `smoke` variable in `abpm_wide` into a factor and exclude participants with missing data for `sleep_time`, `awake_time`, and `smoke`.
+
+__Notes__: 
+
+The factor labels should be
+
+- Never smoked
+- Former smoker
+- Current smoker
+
+```{r}
+
+read_rds('solutions/01_solution.rds')
+
+```
+
+# Problem 2
+
+Pivot the data into a longer format.
+
+__Notes__:
+
+- Create a column named `id` that uniquely identifies each row of `abpm_wide`.
+
+- Pivot the data into a longer form such that each `id` has a column for `sbp`, `dbp`, and `hr`. You may need to use `pivot_longer`, then `separate`, then `pivot_wider`.
+
+- Drop all rows with missing data for `sbp`, `dbp`, _or_ `hr`
+
+```{r}
+
+read_rds('solutions/02_solution.rds')
+
+```
+
+
+# Problem 3
+
+Create an factor variable called `awake` that has values of `'Yes'` when participants are awake and `'No'` when asleep.
+
+__Notes__: 
+
+- There are two scenarios that are relevant: 
+
+    + sleep time is less than awake time
+    
+    + sleep time is greater than awake time.
+
+```{r, fig.width=10}
+
+read_rds('solutions/03_solution.rds')
+
+```
+
+
+# Problem 4
+
+__Notes__: 
+
+```{r}
+
+read_rds('solutions/04_solution.rds')
+
+```
+
+# Problem 5
+
+__Notes__: 
+
+```{r}
+
+read_rds('solutions/05_solution.rds')
+
+```
+
+
+
+
+
